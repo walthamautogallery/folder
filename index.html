@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Folder — Waltham Auto Gallery</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js"></script>
+<style>
+  :root{ --red:#c8102e; --dark:#1a1a1a; --line:#ddd; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; background:#f4f5f7; color:#1a1a1a; }
+  header{ background:var(--dark); color:#fff; padding:16px 20px; display:flex; align-items:center; gap:12px; }
+  header .badge{ background:var(--red); color:#fff; font-weight:800; padding:6px 10px; border-radius:6px; letter-spacing:1px; }
+  header h1{ font-size:18px; margin:0; font-weight:700; }
+  header small{ display:block; color:#bbb; font-weight:400; font-size:12px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:18px; }
+  .grid{ display:grid; grid-template-columns:1fr; gap:18px; }
+  @media(min-width:900px){ .grid{ grid-template-columns:380px 1fr; } }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .card h2{ font-size:14px; text-transform:uppercase; letter-spacing:.5px; color:#666; margin:0 0 12px; }
+  label{ display:block; font-size:12px; font-weight:600; color:#444; margin:10px 0 4px; }
+  input[type=text], select, textarea{ width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:15px; }
+  textarea{ min-height:54px; resize:vertical; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:12px; border:none; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; margin-top:12px; }
+  .btn.primary{ background:var(--red); color:#fff; }
+  .btn.dark{ background:var(--dark); color:#fff; }
+  .btn.ghost{ background:#eee; color:#333; }
+  .btn:active{ transform:translateY(1px); }
+  .hint{ font-size:12px; color:#888; margin-top:6px; }
+  .vinrow{ display:flex; gap:8px; }
+  .vinrow input{ flex:1; text-transform:uppercase; }
+  .status{ font-size:13px; margin-top:8px; padding:8px 10px; border-radius:8px; display:none; }
+  .status.show{ display:block; }
+  .status.ok{ background:#e6f4ea; color:#1e7d34; }
+  .status.err{ background:#fdecea; color:#b3261e; }
+  .status.wait{ background:#fff4e5; color:#8a5a00; }
+  .checks{ display:flex; flex-wrap:wrap; gap:12px; margin-top:6px; }
+  .checks label{ display:flex; align-items:center; gap:6px; margin:0; font-size:14px; }
+  .previewWrap{ overflow:auto; }
+
+  /* ---------- FOLDER (deal jacket) ---------- */
+  .folder{ width:10in; background:#fff; color:#000; font-family:Arial,Helvetica,sans-serif; margin:0 auto; }
+  .folder .form{ border:3px solid #000; }
+  .folder .frow{ display:flex; border-bottom:3px solid #000; }
+  .folder .frow:last-child{ border-bottom:none; }
+  .folder .cell{ padding:14px 16px; }
+  .folder .divider{ border-left:3px solid #000; }
+  .folder .hl{ width:64%; display:flex; align-items:center; }
+  .folder .hl .title{ font-size:34px; font-weight:800; line-height:1.05; letter-spacing:.5px; }
+  .folder .hr{ width:36%; }
+  .folder .hr .lbl{ font-size:15px; font-weight:700; letter-spacing:1px; }
+  .folder .hr .val{ font-size:34px; font-weight:800; margin-top:6px; text-transform:uppercase; }
+  .folder .il{ width:64%; font-size:17px; line-height:1.9; }
+  .folder .il .k{ font-weight:800; }
+  .folder .il .src{ font-size:24px; font-weight:800; margin-top:2px; text-transform:uppercase; }
+  .folder .ir{ width:36%; font-size:16px; }
+  .folder .chk{ display:flex; align-items:center; margin:10px 0; font-weight:700; letter-spacing:.5px; }
+  .folder .box{ width:18px; height:18px; border:2.5px solid #000; margin-right:12px; display:inline-block; }
+  .folder .box.on:after{ content:"✔"; display:block; font-size:15px; line-height:15px; text-align:center; }
+  .folder .notes{ min-height:1.2in; font-size:17px; }
+  .folder .notes .k{ font-weight:800; }
+  .folder .footer{ display:flex; justify-content:space-between; margin-top:24px; font-size:14px; }
+  .folder .sig{ width:45%; border-top:1.5px solid #000; padding-top:4px; text-align:center; }
+  .folder .meta{ margin-top:14px; font-size:10px; color:#222; letter-spacing:1px; }
+
+  /* scale preview to fit on screen */
+  .scaler{ transform-origin:top left; }
+
+  /* ---------- PRINT ---------- */
+  @media print{
+    @page{ size:Letter landscape; margin:.45in; }
+    body{ background:#fff; }
+    header,.controls,.hint,.status,.previewLabel{ display:none !important; }
+    .wrap,.grid,.card{ all:unset; }
+    .previewWrap{ overflow:visible; }
+    .scaler{ transform:none !important; }
+    .folder{ width:100%; }
+    .folder .hl .title,.folder .hr .val{ font-size:32px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="badge">WAG</span>
+  <h1>Gerador de Folder<small>Waltham Auto Gallery — capa de pasta / deal jacket</small></h1>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <!-- CONTROLS -->
+    <div class="card controls">
+      <h2>1. Dados do veículo</h2>
+
+      <label>VIN (17 caracteres)</label>
+      <div class="vinrow">
+        <input id="vin" type="text" maxlength="17" placeholder="Ex.: JM1DE1HZ0B0104048" oninput="render()">
+        <button class="btn dark" style="width:auto;margin:0;padding:10px 14px" onclick="decodeVin()">Decodificar</button>
+      </div>
+      <div class="hint">Digite o VIN e toque em Decodificar para preencher ano/marca/modelo automaticamente.</div>
+
+      <label>Ou envie uma foto do title (leitura automática do VIN)</label>
+      <input id="photo" type="file" accept="image/*" capture="environment" onchange="ocrPhoto(event)">
+      <div class="hint">Best effort — se não achar o VIN na foto, digite manualmente.</div>
+
+      <div id="status" class="status"></div>
+
+      <div class="row2">
+        <div><label>Ano</label><input id="year" type="text" oninput="render()"></div>
+        <div><label>Marca</label><input id="make" type="text" oninput="render()"></div>
+      </div>
+      <div class="row2">
+        <div><label>Modelo</label><input id="model" type="text" oninput="render()"></div>
+        <div><label>Versão / Trim</label><input id="trim" type="text" oninput="render()"></div>
+      </div>
+      <div class="row2">
+        <div><label>Cor</label><input id="color" type="text" placeholder="Ex.: WHITE" oninput="render()"></div>
+        <div><label>Odômetro (mi)</label><input id="odo" type="text" placeholder="Ex.: 116,939" oninput="render()"></div>
+      </div>
+
+      <label>Comprado de</label>
+      <select id="source" onchange="toggleSource()">
+        <option>ADESA</option>
+        <option>WALK-IN</option>
+        <option>COPART</option>
+        <option>IAA</option>
+        <option>MANHEIM</option>
+        <option value="__other">Outro…</option>
+      </select>
+      <input id="sourceOther" type="text" placeholder="Digite a origem" style="display:none;margin-top:8px" oninput="render()">
+
+      <label>Notas</label>
+      <textarea id="notes" placeholder="Ex.: Waltham" oninput="render()"></textarea>
+
+      <label>Checkboxes marcados</label>
+      <div class="checks">
+        <label><input type="checkbox" id="c_pic" onchange="render()"> Pictures</label>
+        <label><input type="checkbox" id="c_insp" onchange="render()"> Inspected</label>
+        <label><input type="checkbox" id="c_det" onchange="render()"> Detailed</label>
+        <label><input type="checkbox" id="c_web" onchange="render()"> Website</label>
+      </div>
+
+      <button class="btn primary" onclick="window.print()">🖨️ Imprimir folder</button>
+      <button class="btn ghost" onclick="clearAll()">Limpar</button>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="card">
+      <h2 class="previewLabel">2. Pré-visualização (formato de impressão — horizontal)</h2>
+      <div class="previewWrap">
+        <div class="scaler" id="scaler">
+          <div class="folder" id="folder">
+            <div class="form">
+              <div class="frow">
+                <div class="cell hl"><div class="title" id="p_title">—</div></div>
+                <div class="cell hr divider"><div class="lbl">COR</div><div class="val" id="p_color">—</div></div>
+              </div>
+              <div class="frow">
+                <div class="cell il">
+                  <div><span class="k">VIN:</span> <span id="p_vin">—</span></div>
+                  <div><span class="k">ODOMETER:</span> <span id="p_odo">—</span></div>
+                  <div><span class="k">PURCHASED FROM:</span></div>
+                  <div class="src" id="p_src">—</div>
+                </div>
+                <div class="cell ir divider">
+                  <div class="chk"><span class="box" id="b_pic"></span> PICTURES</div>
+                  <div class="chk"><span class="box" id="b_insp"></span> INSPECTED</div>
+                  <div class="chk"><span class="box" id="b_det"></span> DETAILED</div>
+                  <div class="chk"><span class="box" id="b_web"></span> WEBSITE</div>
+                </div>
+              </div>
+              <div class="frow">
+                <div class="cell notes" style="width:100%"><span class="k">NOTES:</span> <span id="p_notes"></span></div>
+              </div>
+            </div>
+            <div class="footer"><div class="sig">Received Title</div><div class="sig">Purchaser</div></div>
+            <div class="meta">DSA 546 WHITE &nbsp;&nbsp;&nbsp; ITEM #515</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setStatus(msg,type){ var s=document.getElementById('status'); s.textContent=msg; s.className='status show '+(type||''); if(!msg) s.className='status'; }
+function val(id){ return (document.getElementById(id).value||'').trim(); }
+
+function currentSource(){
+  var sel=document.getElementById('source');
+  if(sel.value==='__other') return val('sourceOther');
+  return sel.value;
+}
+function toggleSource(){
+  document.getElementById('sourceOther').style.display = document.getElementById('source').value==='__other' ? 'block':'none';
+  render();
+}
+
+function render(){
+  var year=val('year'), make=val('make'), model=val('model'), trim=val('trim');
+  var title=[year,make,model,trim].filter(Boolean).join(' ').toUpperCase() || '—';
+  document.getElementById('p_title').textContent=title;
+  document.getElementById('p_color').textContent=val('color').toUpperCase()||'—';
+  document.getElementById('p_vin').textContent=val('vin').toUpperCase()||'—';
+  var odo=val('odo'); document.getElementById('p_odo').textContent= odo ? (odo.replace(/mi$/i,'').trim()+' mi') : '—';
+  document.getElementById('p_src').textContent=currentSource().toUpperCase()||'—';
+  document.getElementById('p_notes').textContent=val('notes');
+  document.getElementById('b_pic').className='box'+(document.getElementById('c_pic').checked?' on':'');
+  document.getElementById('b_insp').className='box'+(document.getElementById('c_insp').checked?' on':'');
+  document.getElementById('b_det').className='box'+(document.getElementById('c_det').checked?' on':'');
+  document.getElementById('b_web').className='box'+(document.getElementById('c_web').checked?' on':'');
+  fitPreview();
+}
+
+function fitPreview(){
+  var wrap=document.querySelector('.previewWrap');
+  var scaler=document.getElementById('scaler');
+  scaler.style.transform='none';
+  var natural=document.getElementById('folder').offsetWidth; // 10in in px (~960)
+  var avail=wrap.clientWidth;
+  if(natural>avail){ var s=avail/natural; scaler.style.transform='scale('+s+')'; wrap.style.height=(document.getElementById('folder').offsetHeight*s)+'px'; }
+  else { wrap.style.height='auto'; }
+}
+window.addEventListener('resize',fitPreview);
+
+async function decodeVin(){
+  var vin=val('vin').toUpperCase();
+  if(vin.length<11){ setStatus('Digite um VIN válido (17 caracteres).','err'); return; }
+  setStatus('Decodificando VIN…','wait');
+  try{
+    var r=await fetch('https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/'+encodeURIComponent(vin)+'?format=json');
+    var j=await r.json(); var d=(j.Results&&j.Results[0])||{};
+    if(d.ModelYear) document.getElementById('year').value=d.ModelYear;
+    if(d.Make) document.getElementById('make').value=cap(d.Make);
+    if(d.Model) document.getElementById('model').value=cap(d.Model);
+    var trim=d.Trim||d.Series||''; if(trim) document.getElementById('trim').value=cap(trim);
+    if(d.ModelYear||d.Make) setStatus('VIN decodificado: '+[d.ModelYear,cap(d.Make),cap(d.Model)].filter(Boolean).join(' ')+'. Preencha cor e odômetro.','ok');
+    else setStatus('Não achei dados para esse VIN. Verifique o número ou preencha manualmente.','err');
+    render();
+  }catch(e){ setStatus('Sem internet? Não consegui consultar a base de VIN. Preencha manualmente.','err'); }
+}
+
+function cap(s){ return (s||'').toString().toLowerCase().replace(/\b\w/g,function(c){return c.toUpperCase();}); }
+
+async function ocrPhoto(ev){
+  var file=ev.target.files[0]; if(!file) return;
+  if(typeof Tesseract==='undefined'){ setStatus('OCR indisponível (sem internet). Digite o VIN manualmente.','err'); return; }
+  setStatus('Lendo a foto do title… isso pode levar alguns segundos.','wait');
+  try{
+    var res=await Tesseract.recognize(file,'eng');
+    var text=(res.data.text||'').toUpperCase().replace(/[^A-Z0-9\n ]/g,' ');
+    // procura sequência de 17 chars válidos de VIN (sem I,O,Q)
+    var m=text.match(/\b[A-HJ-NPR-Z0-9]{17}\b/);
+    if(m){
+      document.getElementById('vin').value=m[0];
+      setStatus('VIN encontrado na foto: '+m[0]+'. Decodificando…','ok');
+      render(); decodeVin();
+    } else {
+      setStatus('Não consegui achar o VIN na foto. Tente uma foto mais nítida ou digite manualmente.','err');
+    }
+  }catch(e){ setStatus('Falha ao ler a foto. Digite o VIN manualmente.','err'); }
+}
+
+function clearAll(){
+  ['vin','year','make','model','trim','color','odo','notes','sourceOther'].forEach(function(id){document.getElementById(id).value='';});
+  ['c_pic','c_insp','c_det','c_web'].forEach(function(id){document.getElementById(id).checked=false;});
+  document.getElementById('source').value='ADESA'; toggleSource(); setStatus(''); render();
+}
+
+render();
+</script>
+</body>
+</html>
