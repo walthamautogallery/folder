@@ -47,12 +47,13 @@
   .folder .cell{ padding:14px 16px; }
   .folder .divider{ border-left:3px solid #000; }
   .folder .hl{ width:64%; display:flex; align-items:center; }
-  .folder .hl .title{ font-size:34px; font-weight:800; line-height:1.05; letter-spacing:.5px; }
+  .folder .hl .title{ font-size:48px; font-weight:800; line-height:1.05; letter-spacing:.5px; }
   .folder .hr{ width:36%; }
   .folder .hr .lbl{ font-size:15px; font-weight:700; letter-spacing:1px; }
-  .folder .hr .val{ font-size:34px; font-weight:800; margin-top:6px; text-transform:uppercase; }
-  .folder .il{ width:64%; font-size:17px; line-height:1.9; }
+  .folder .hr .val{ font-size:42px; font-weight:800; margin-top:6px; text-transform:uppercase; }
+  .folder .il{ width:64%; font-size:21px; line-height:1.85; }
   .folder .il .k{ font-weight:800; }
+  .folder .il .vinline{ font-size:30px; margin-bottom:4px; }
   .folder .il .src{ font-size:24px; font-weight:800; margin-top:2px; text-transform:uppercase; }
   .folder .ir{ width:36%; font-size:16px; }
   .folder .chk{ display:flex; align-items:center; margin:10px 0; font-weight:700; letter-spacing:.5px; }
@@ -76,7 +77,10 @@
     .previewWrap{ overflow:visible; }
     .scaler{ transform:none !important; }
     .folder{ width:100%; }
-    .folder .hl .title,.folder .hr .val{ font-size:32px; }
+    .folder .hl .title{ font-size:46px; }
+    .folder .hr .val{ font-size:40px; }
+    .folder .il{ font-size:20px; }
+    .folder .il .vinline{ font-size:28px; }
   }
 </style>
 </head>
@@ -157,7 +161,7 @@
               </div>
               <div class="frow">
                 <div class="cell il">
-                  <div><span class="k">VIN:</span> <span id="p_vin">—</span></div>
+                  <div class="vinline"><span class="k">VIN:</span> <span id="p_vin">—</span></div>
                   <div><span class="k">ODOMETER:</span> <span id="p_odo">—</span></div>
                   <div><span class="k">PURCHASED FROM:</span></div>
                   <div class="src" id="p_src">—</div>
@@ -216,7 +220,7 @@ function fitPreview(){
   var wrap=document.querySelector('.previewWrap');
   var scaler=document.getElementById('scaler');
   scaler.style.transform='none';
-  var natural=document.getElementById('folder').offsetWidth; // 10in in px (~960)
+  var natural=document.getElementById('folder').offsetWidth;
   var avail=wrap.clientWidth;
   if(natural>avail){ var s=avail/natural; scaler.style.transform='scale('+s+')'; wrap.style.height=(document.getElementById('folder').offsetHeight*s)+'px'; }
   else { wrap.style.height='auto'; }
@@ -249,7 +253,6 @@ async function ocrPhoto(ev){
   try{
     var res=await Tesseract.recognize(file,'eng');
     var text=(res.data.text||'').toUpperCase().replace(/[^A-Z0-9\n ]/g,' ');
-    // procura sequência de 17 chars válidos de VIN (sem I,O,Q)
     var m=text.match(/\b[A-HJ-NPR-Z0-9]{17}\b/);
     if(m){
       document.getElementById('vin').value=m[0];
