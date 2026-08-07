@@ -22,7 +22,7 @@
 - [x] **2026-08-07 — busca oficial feita pelo usuário: nenhum resultado.**
       "Waltham Auto Detail LLC" está livre.
 
-## Passo 2 — Registrar o Certificate of Organization ($520 online, ~20 min)
+## Passo 2 — Registrar o Certificate of Organization ($520 online, ~20 min) ✅ SUBMETIDO 2026-08-07
 
 - [ ] Abrir o sistema de registro online:
   **https://corp.sec.state.ma.us/corpweb/loginsystem/login_selection.aspx**
@@ -41,7 +41,11 @@
 - Aprovação: geralmente **mesmo dia até 1–2 dias úteis**; o certificado carimbado
   chega por e-mail / fica disponível no sistema. **Guardar o PDF.**
 
-## Passo 3 — EIN no IRS ($0, 15 min, sai na hora)
+## Passo 3 — EIN no IRS ($0, 15 min, sai na hora) 🔄 EM ANDAMENTO 2026-08-07
+
+> Respostas do formulário do EIN: multi-member LLC · condado = **Middlesex** ·
+> estado = MA · motivo = "Started a new business". Sócios: Kelvin Costa Lehnen
+> e Guilherme Macedo Joi (ver Certificate of Organization).
 
 - [ ] Depois da LLC aprovada: **https://www.irs.gov/ein** → "Apply Online".
 - Funciona seg–sex, horário comercial. Responder: tipo = LLC, estado = MA,
