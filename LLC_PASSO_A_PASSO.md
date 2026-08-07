@@ -17,12 +17,10 @@
 
 ---
 
-## Passo 1 — Confirmar que o nome está livre ($0, 5 min)
+## Passo 1 — Confirmar que o nome está livre ($0, 5 min) ✅ FEITO
 
-- [ ] Abrir a busca oficial: **https://corp.sec.state.ma.us/corpweb/corpsearch/corpsearch.aspx**
-- Buscar por "Waltham Auto Detail" (busca ampla, "contains").
-- Se nada aparecer → nome livre. (Busca na web em 2026-08-07 não achou nenhuma;
-  a A-List do 42 Felton St tem outro nome registrado.)
+- [x] **2026-08-07 — busca oficial feita pelo usuário: nenhum resultado.**
+      "Waltham Auto Detail LLC" está livre.
 
 ## Passo 2 — Registrar o Certificate of Organization ($520 online, ~20 min)
 
