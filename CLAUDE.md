@@ -4,9 +4,9 @@
 
 Quando o usuário disser **"detail"** (ou "waltham auto detail"), **leia
 `WALTHAM_AUTO_DETAIL.md`** neste repositório e continue o projeto de onde parou:
-criar a **Waltham Auto Detail** (braço/DBA da Lehnen & Ristov LLC).
+criar a **Waltham Auto Detail** (LLC separada, irmã da Lehnen & Ristov LLC).
 
-Esse arquivo contém tudo: decisões travadas, análise do endereço (38 Felton St),
+Esse arquivo contém tudo: decisões travadas, análise do endereço (39 Felton St),
 tabela de preços, plano de QuickBooks/GHL, domínio/redes e a lista de próximos passos.
 Comece confirmando o status dos itens em aberto (TODO) antes de agir.
 

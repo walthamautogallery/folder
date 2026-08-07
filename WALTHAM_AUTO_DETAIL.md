@@ -2,27 +2,38 @@
 
 > **Palavra-chave de ativação: "detail"** — quando o usuário disser "detail",
 > carregue este arquivo e continue o projeto exatamente de onde parou.
-> Última atualização: 2026-07-29 · Owner: admin@walthamautogallery.com
+> Última atualização: 2026-08-07 · Owner: admin@walthamautogallery.com
 
 ---
 
 ## 🎯 O que é
 
-Criar **Waltham Auto Detail** — um negócio/marca de detalhe automotivo, como
-**braço (DBA)** da **Lehnen & Ristov LLC** (mesma empresa da Waltham Auto Gallery).
-**Não é empresa nova.** Mesmo EIN, banco, QuickBooks e seguro.
+Criar **Waltham Auto Detail** — um negócio de detalhe automotivo, agora como
+**empresa separada (nova LLC)**, irmã da **Lehnen & Ristov LLC** (Waltham Auto
+Gallery). **EIN, banco, QuickBooks e seguro próprios.**
 
 ---
 
 ## ✅ Decisões travadas
 
-### Estrutura legal
-- **DBA "Waltham Auto Detail"** sob a **Lehnen & Ristov LLC**.
-- Único passo formal: **Business Certificate (DBA)** no **City Clerk de Waltham**
-  (~$30–65, presencial/online, vale 4 anos).
-- Avisar a seguradora do novo endereço/operação (mesma apólice da LLC).
+### Estrutura legal — ⚠️ DECISÃO ALTERADA em 2026-08-07
+- ~~Antes: DBA sob a Lehnen & Ristov LLC~~ → **agora: EMPRESA SEPARADA — nova LLC**
+  (ex.: **"Waltham Auto Detail LLC"**), irmã da Lehnen & Ristov LLC.
+- Passos de formação em Massachusetts:
+  1. Checar disponibilidade do nome no banco de corporações do
+     **Secretary of the Commonwealth** (corp.sec.state.ma.us).
+  2. Registrar o **Certificate of Organization** — taxa **$500** (online +$20).
+  3. Tirar **EIN novo** no IRS (grátis, online, sai na hora).
+  4. Abrir **conta bancária própria** da nova LLC.
+  5. **Apólice de seguro própria** (garage liability/garage keepers) no 39 Felton St.
+  6. Lembrar do **Annual Report** de MA: **$500/ano** ($520 online).
+  7. Se contratar funcionário: **workers' comp** e payroll próprios.
+- Se a LLC se chamar exatamente "Waltham Auto Detail LLC", **não precisa de DBA**;
+  DBA no City Clerk só se operar com nome diferente do registrado.
+- Trade-off assumido: isola risco e livros da Gallery, em troca de ~$500/ano de
+  annual report + QBO próprio + seguro próprio.
 
-### Local — 38 Felton St, Waltham, MA
+### Local — 39 Felton St, Waltham, MA
 - Aluguel **$3.000/mês**. **Semipronto + já com permits.** ✅
 - Zona **industrial/flex** — correta para detalhe (descarte de água exige isso).
 - Tamanho estimado ~1.200–1.450 SF (1–2 baias) pelo comp de mercado (~$25–29/SF/ano).
@@ -74,16 +85,20 @@ Criar **Waltham Auto Detail** — um negócio/marca de detalhe automotivo, como
 
 ## 🧾 QuickBooks — plano de execução
 
-> **Bloqueio atual:** as chamadas ao QB retornam `requires approval`. Não é falta
-> de acesso à API (o app da Intuit existe) — é a **permissão do conector no Claude**
-> que está em "perguntar" e o pop-up não sobe. Destravar: Configurações de conectores
-> → QuickBooks (Intuit) → **allow/ativado**. Depois é só mandar "pode tentar".
+> ⚠️ **Plano antigo (era DBA):** classes `Auto Gallery`/`Auto Detail` no mesmo
+> arquivo QB. **DESCARTADO** com a mudança para LLC separada.
 
-Quando liberar, criar dentro do **mesmo** arquivo QB (NÃO abrir company nova):
-1. **Class tracking = ON** → classes `Auto Gallery` e `Auto Detail`.
-2. **Products/Services** dos serviços da tabela → conta de receita **"Detailing Revenue"**.
-3. Aluguel $3k/mês → despesa **Rent** marcada na classe `Auto Detail`.
-4. Invoices/Estimates do detalhe → serviço + classe `Auto Detail`.
+**Novo plano (LLC separada):**
+1. Quando a LLC existir (EIN em mãos), abrir **assinatura/company QBO NOVA e
+   separada** para a Waltham Auto Detail. **Não misturar** com o QB da
+   Lehnen & Ristov.
+2. Nela: **Products/Services** da tabela de preços → conta de receita
+   **"Detailing Revenue"**.
+3. Aluguel $3k/mês → despesa **Rent**.
+4. Invoices/Estimates + cobrança (payment link remoto e **GoPayment** presencial)
+   pelo QBO novo; GHL↔QBO sincroniza cliente e status de pago.
+5. O **conector QuickBooks do Claude hoje aponta para a company da Lehnen &
+   Ristov** — depois de criar a company nova, reconectar/apontar para ela.
 
 ---
 
@@ -96,11 +111,14 @@ Quando liberar, criar dentro do **mesmo** arquivo QB (NÃO abrir company nova):
 
 ## 📋 Próximos passos (TODO)
 
+- [ ] **Formar a LLC nova** no Secretary of the Commonwealth (checar nome →
+      Certificate of Organization $500) → EIN → conta bancária → seguro próprio.
 - [ ] Registrar **walthamautodetail.com** + **@walthamautodetail** (IG/FB).
-- [ ] Abrir **Google Business Profile** no 38 Felton St → **maior retorno agora**
+- [ ] Abrir **Google Business Profile** no 39 Felton St → **maior retorno agora**
       (escrever descrição, categorias e serviços com preços — texto a produzir).
-- [ ] Liberar permissão do **conector QuickBooks** no Claude → criar classes + serviços.
-- [ ] Filiar o **DBA** no City Clerk de Waltham.
+- [ ] Criar **company QBO nova** da Detail (pós-EIN) → serviços da tabela +
+      reconectar o conector do Claude nela.
+- [ ] ~~DBA no City Clerk~~ — só se o nome operacional diferir do nome da LLC.
 - [ ] Due diligence do imóvel: permits (uso), separador óleo/água, elétrica 200A.
 - [ ] Montar **site no GHL** + mapear domínio.
 - [ ] Escrever **texto do Google Business Profile**.
