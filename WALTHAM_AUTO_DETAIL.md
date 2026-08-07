@@ -111,8 +111,8 @@ Gallery). **EIN, banco, QuickBooks e seguro próprios.**
 
 ## 📋 Próximos passos (TODO)
 
-- [ ] **Formar a LLC nova** no Secretary of the Commonwealth (checar nome →
-      Certificate of Organization $500) → EIN → conta bancária → seguro próprio.
+- [ ] **Formar a LLC nova** — passo a passo completo em **`LLC_PASSO_A_PASSO.md`**
+      (nome → Certificate of Organization $520 → EIN → banco → seguro).
 - [ ] Registrar **walthamautodetail.com** + **@walthamautodetail** (IG/FB).
 - [ ] Abrir **Google Business Profile** no 39 Felton St → **maior retorno agora**
       (escrever descrição, categorias e serviços com preços — texto a produzir).
