@@ -55,6 +55,7 @@
   .folder .il .k{ font-weight:800; }
   .folder .il .vinline{ font-size:30px; margin-bottom:4px; }
   .folder .il .src{ font-size:24px; font-weight:800; margin-top:2px; text-transform:uppercase; }
+  .folder .il .to{ font-size:24px; font-weight:800; margin-top:6px; text-transform:uppercase; }
   .folder .ir{ width:36%; font-size:16px; }
   .folder .chk{ display:flex; align-items:center; margin:10px 0; font-weight:700; letter-spacing:.5px; }
   .folder .box{ width:18px; height:18px; border:2.5px solid #000; margin-right:12px; display:inline-block; }
@@ -133,6 +134,15 @@
       </select>
       <input id="sourceOther" type="text" placeholder="Digite a origem" style="display:none;margin-top:8px" oninput="render()">
 
+      <label>Take over (responsável humano)</label>
+      <select id="takeover" onchange="toggleTakeover()">
+        <option>KEVIN YERARDI</option>
+        <option value="">(nenhum)</option>
+        <option value="__other">Outro…</option>
+      </select>
+      <input id="takeoverOther" type="text" placeholder="Digite o nome do responsável" style="display:none;margin-top:8px" oninput="render()">
+      <div class="hint">Aparece no folder como “TAKE OVER”. Deixe em “(nenhum)” para não imprimir a linha.</div>
+
       <label>Notas</label>
       <textarea id="notes" placeholder="Ex.: Waltham" oninput="render()"></textarea>
 
@@ -165,6 +175,7 @@
                   <div><span class="k">ODOMETER:</span> <span id="p_odo">—</span></div>
                   <div><span class="k">PURCHASED FROM:</span></div>
                   <div class="src" id="p_src">—</div>
+                  <div class="to" id="p_takeover_row"><span class="k" style="font-weight:800">TAKE OVER:</span> <span id="p_takeover"></span></div>
                 </div>
                 <div class="cell ir divider">
                   <div class="chk"><span class="box" id="b_pic"></span> PICTURES</div>
@@ -200,6 +211,16 @@ function toggleSource(){
   render();
 }
 
+function currentTakeover(){
+  var sel=document.getElementById('takeover');
+  if(sel.value==='__other') return val('takeoverOther');
+  return sel.value;
+}
+function toggleTakeover(){
+  document.getElementById('takeoverOther').style.display = document.getElementById('takeover').value==='__other' ? 'block':'none';
+  render();
+}
+
 function render(){
   var year=val('year'), make=val('make'), model=val('model'), trim=val('trim');
   var title=[year,make,model,trim].filter(Boolean).join(' ').toUpperCase() || '—';
@@ -208,6 +229,9 @@ function render(){
   document.getElementById('p_vin').textContent=val('vin').toUpperCase()||'—';
   var odo=val('odo'); document.getElementById('p_odo').textContent= odo ? (odo.replace(/mi$/i,'').trim()+' mi') : '—';
   document.getElementById('p_src').textContent=currentSource().toUpperCase()||'—';
+  var to=currentTakeover().toUpperCase();
+  document.getElementById('p_takeover').textContent=to;
+  document.getElementById('p_takeover_row').style.display = to ? 'block':'none';
   document.getElementById('p_notes').textContent=val('notes');
   document.getElementById('b_pic').className='box'+(document.getElementById('c_pic').checked?' on':'');
   document.getElementById('b_insp').className='box'+(document.getElementById('c_insp').checked?' on':'');
@@ -265,9 +289,11 @@ async function ocrPhoto(ev){
 }
 
 function clearAll(){
-  ['vin','year','make','model','trim','color','odo','notes','sourceOther'].forEach(function(id){document.getElementById(id).value='';});
+  ['vin','year','make','model','trim','color','odo','notes','sourceOther','takeoverOther'].forEach(function(id){document.getElementById(id).value='';});
   ['c_pic','c_insp','c_det','c_web'].forEach(function(id){document.getElementById(id).checked=false;});
-  document.getElementById('source').value='ADESA'; toggleSource(); setStatus(''); render();
+  document.getElementById('source').value='ADESA'; toggleSource();
+  document.getElementById('takeover').value='KEVIN YERARDI'; toggleTakeover();
+  setStatus(''); render();
 }
 
 render();
