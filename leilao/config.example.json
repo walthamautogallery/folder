@@ -1,0 +1,15 @@
+{
+  "horario": "seg-sex 10:00 America/New_York",
+  "whatsapp_destino": "+18572698256",
+  "leiloes": ["ADESA Clear", "OPENLANE", "ACV Auctions"],
+  "filtros": {
+    "ano_minimo_offset": 10,
+    "milhagem_max": 120000,
+    "raio_milhas_waltham": 600,
+    "titulo": ["clean"],
+    "preco_max": 35000
+  },
+  "margem_minima_usd": 2000,
+  "margem_minima_pct": 0.12,
+  "max_carros_relatorio": 10
+}
