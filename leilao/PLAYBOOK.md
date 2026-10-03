@@ -15,11 +15,21 @@
 | **Manheim (Express / Simulcast)** | CR + AutoGrade + MMR | Referência de preço (MMR) para tudo o resto |
 | Copart / IAA | Fraco (salvage) | **Fora** do escopo, exceto pedido explícito |
 
+## 1b. Perfil real de compra (extraído do Gmail — 43 arremates mai–out/2026)
+
+- **Marcas**: quase só **Honda / Toyota / Acura / Lexus** (CR-V, Civic, Accord, Fit, Pilot, Odyssey, Camry, Corolla, Prius, RAV4, Highlander, Sienna, Avalon, RX 350, RDX, TSX).
+- **Anos**: 2010–2020, concentrado em **2010–2016**. Muito híbrido Toyota (Prius, Camry Hybrid, Highlander Hybrid).
+- **Ticket**: ~**$4k–$12k** de martelo (ex.: CR-V 2013 → $7.300 + $400 buyer fee + $25 floor plan Westlake).
+- **Origem**: ADESA Boston, New Jersey, Syracuse, Buffalo, Pittsburgh e pátios Carvana (Elyria, Chesterfield, Trenton).
+- **Lição recente**: 2013 Accord EX-L (ADESA Boston) foi para **arbitragem/unwind** — reforça checar áudio do motor e fotos antes do lance.
+
+> Regra: o Vendedor dá **bônus** para carros dentro desse perfil (a loja já sabe vender, preparar e precificar) e exige margem maior fora dele.
+
 ## 2. Filtros de entrada (descartar antes de analisar)
 
 - Título: só **Clean**. Nada de salvage, rebuilt, flood, lemon/buyback, TMU.
-- Ano ≥ hoje − 10, milhagem ≤ 120k (ajustável em `config.example.json`).
-- Distância: até ~600 mi de Waltham (frete ≤ ~$1,50/mi em carreta aberta).
+- Ano ≥ 2009, milhagem ≤ 140k, grade ≥ 2.5 (igual às buscas salvas "Cris"/"Cris1"; ajustável em `config.example.json`).
+- Distância: até ~250 mi de Waltham (02453) por padrão; até 600 mi só se o desconto pagar o frete (≈ $1,50/mi).
 - Condição Clear/CR: sem alerta de **frame/estrutura**, sem airbag acionado, sem odômetro inconsistente.
 - OBD: descartar códigos de transmissão (P07xx), catalisador (P0420/P0430) sem desconto, misfire (P030x) recorrente.
 - **MA inspection**: nenhum item que reprove na vistoria estadual (check engine aceso, vidro trincado na área do limpador, pneu < 2/32").
@@ -58,7 +68,8 @@ Para cada carro, cruzar **histórico de serviço do CARFAX/AutoCheck** com o **c
 $$\text{Lance máx} = \text{Varejo esperado} - \text{Margem alvo} - \text{Taxa leilão} - \text{Frete} - \text{Recon} - \text{Registro/Inspeção MA} - \text{Custo de capital}$$
 
 - **Varejo esperado**: mediana de anúncios comparáveis (mesmo ano ±1, km ±15k, raio 100 mi de Waltham) − 3–5% de negociação.
-- **Margem alvo**: mínimo **$2.000** ou **12%**, o que for maior.
+- **Taxas ADESA**: buyer fee ~**$400** + floor plan fee ~$25 (conferir na confirmação de pagamento).
+- **Margem alvo**: mínimo **$1.500** ou **15%**, o que for maior (carros de $4k–$12k giram rápido, mas cada $ de recon pesa).
 - **Recon**: detalhamento interno (~$60–120 consumíveis) + pneus/freios conforme laudo + reparos citados.
 - **Custo de capital**: floor plan ~ (taxa anual ÷ 365) × 45 dias × preço.
 - Comparar sempre com **MMR** (Manheim): comprar acima do MMR só se nota técnica ≥ 8 e giro alto.

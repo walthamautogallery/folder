@@ -1,15 +1,25 @@
 {
   "horario": "seg-sex 10:00 America/New_York",
   "whatsapp_destino": "+18572698256",
-  "leiloes": ["ADESA Clear", "OPENLANE", "ACV Auctions"],
-  "filtros": {
-    "ano_minimo_offset": 10,
-    "milhagem_max": 120000,
-    "raio_milhas_waltham": 600,
-    "titulo": ["clean"],
-    "preco_max": 35000
+  "fonte_principal": "gmail",
+  "gmail": {
+    "alertas": "from:(no-reply@nw.adesa.com OR acvauctions.com OR openlane.com) newer_than:1d",
+    "alertas_segunda": "from:(no-reply@nw.adesa.com OR acvauctions.com OR openlane.com) newer_than:3d",
+    "historico_compras": "from:comms.adesaclear.com subject:\"Payment Confirmation\" newer_than:120d",
+    "arbitragens": "from:arbitrations.marketplace.adesa.com newer_than:120d"
   },
-  "margem_minima_usd": 2000,
-  "margem_minima_pct": 0.12,
+  "leiloes": ["ADESA Clear", "ADESA (DealerBlock / Runlist)", "ACV Auctions", "OPENLANE"],
+  "filtros": {
+    "ano_minimo": 2009,
+    "milhagem_max": 140000,
+    "grade_minima": 2.5,
+    "raio_milhas_cep_02453": 250,
+    "titulo": ["clean"],
+    "preco_max": 15000
+  },
+  "marcas_perfil": ["Honda", "Toyota", "Acura", "Lexus"],
+  "taxas": {"buyer_fee_usd": 400, "floor_plan_fee_usd": 25},
+  "margem_minima_usd": 1500,
+  "margem_minima_pct": 0.15,
   "max_carros_relatorio": 10
 }
